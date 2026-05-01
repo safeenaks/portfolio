@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:url('assets/images/BG.png') no-repeat center/cover;
+  padding:25px;
+}
+
+/* TITLE */
+h2{
+  text-align:center;
+  color:#0a8f5a;
+  margin-bottom:20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:20px;
+}
+
+/* CARD stays uniform */
+.card{
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+
+  display:flex;
+  flex-direction:column;
+}
+
+/* FULL IMAGE (NO CROPPING, NO FIXED HEIGHT) */
+.card img{
+  width:100%;
+  height:auto;        /* 🔥 full natural size */
+  display:block;
+  object-fit:unset;   /* no cropping */
+}
+
+/* TEXT */
+.card h4{
+  padding:10px;
+  text-align:center;
+  font-size:14px;
+}
+
+/* PDF */
+.pdf{
+  width:100%;
+  height:250px;
+  border:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>My Projects</h2>
+
+<div class="grid" id="projects"></div>
+
+<script>
+
+const data = JSON.parse(localStorage.getItem("projects")) || [];
+const box = document.getElementById("projects");
+
+if(data.length === 0){
+  box.innerHTML = "<p style='text-align:center;'>No projects added yet</p>";
+}
+
+data.forEach(item => {
+
+  let content = "";
+
+  if(item.type?.startsWith("image")){
+    content = `<img src="${item.file}">`;
+  }
+  else if(item.type?.includes("pdf")){
+    content = `<iframe class="pdf" src="${item.file}"></iframe>`;
+  }
+  else{
+    content = `<div class="file-box">📄 File</div>`;
+  }
+
+  box.innerHTML += `
+    <div class="card">
+      ${content}
+      <h4>${item.title}</h4>
+    </div>
+  `;
+});
+
+</script>
+
+</body>
+</html>

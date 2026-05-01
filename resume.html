@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resume | Safeena</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #8fcbad, #cbf2e5, #0e6a36);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      width: 100%;
+      background: rgba(183, 248, 155, 0.6);
+      color: rgb(50, 80, 47);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .top-bar a {
+      color: #41753f;
+      text-decoration: none;
+      margin-left: 15px;
+    }
+
+    /* Card Container */
+    .resume-card {
+      width: 70%;
+      height: 80vh;
+      margin-top: 40px;
+      background: rgb(142, 226, 145);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(58, 158, 75, 0.3);
+    }
+
+    /* Scrollable PDF */
+    .resume-card iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    @media(max-width:768px){
+      .resume-card {
+        width: 90%;
+        height: 75vh;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="top-bar">
+  <span>My Resume</span>
+  <div>
+    <a href="home.html">Home  </a>
+  
+  </div>
+</div>
+
+<div class="resume-card">
+  <iframe src="assets/pdfs/resume.pdf#zoom=70"></iframe>
+</div>
+
+</body>
+</html>

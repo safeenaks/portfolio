@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prizes & Achievements</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Poppins',sans-serif;
+  background:url('assets/images/BG.png') no-repeat center/cover;
+  padding:40px;
+}
+
+/* TITLE */
+h2 {
+  text-align:center;
+  color:#101f19;
+  margin-bottom:30px;
+}
+
+/* FLOW LAYOUT (instead of grid) */
+.grid {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+}
+
+/* CARD */
+.card {
+  background:white;
+  padding:12px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  width:260px;   /* controls card size */
+  transition:0.3s;
+}
+
+.card:hover {
+  transform:translateY(-5px);
+}
+
+/* IMAGE FIX (smaller + neat crop) */
+.card img {
+  width:100%;
+  height:180px;        /* important: makes uniform size */
+  object-fit:cover;    /* keeps image ratio clean */
+  border-radius:10px;
+}
+
+/* PDF */
+.pdf-view {
+  width:100%;
+  height:180px;
+  border:none;
+  border-radius:10px;
+}
+
+/* OTHER */
+.file-box {
+  height:180px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f5f5f5;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* TITLE */
+.card h4 {
+  margin-top:10px;
+  text-align:center;
+  font-size:14px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .card {
+    width:90%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<h2>Prizes & Achievements</h2>
+
+<div class="grid" id="prizes"></div>
+
+<script>
+const data = JSON.parse(localStorage.getItem("prizes")) || [];
+let html = "";
+
+if(data.length === 0){
+  html = "<p style='text-align:center;'>No prizes added yet</p>";
+}
+
+data.forEach(item => {
+
+  const file = item.file || "";
+  let type = item.type || "";
+
+  if(!type && file.startsWith("data:")){
+    if(file.includes("image")) type = "image";
+    else if(file.includes("pdf")) type = "application/pdf";
+  }
+
+  // IMAGE
+  if(type.includes("image")){
+    html += `
+      <div class="card">
+        <img src="${file}">
+        <h4>${item.title}</h4>
+      </div>
+    `;
+  }
+
+  // PDF (FULL VIEW)
+  else if(type === "application/pdf"){
+    html += `
+      <div class="card">
+        <iframe src="${file}" class="pdf-view"></iframe>
+        <h4>${item.title}</h4>
+      </div>
+    `;
+  }
+
+  // OTHER FILE
+  else {
+    html += `
+      <div class="card">
+        <div class="file-box" onclick="openFile('${file}')">
+          📄 Open File
+        </div>
+        <h4>${item.title}</h4>
+      </div>
+    `;
+  }
+
+});
+
+document.getElementById("prizes").innerHTML = html;
+
+function openFile(file){
+  const win = window.open();
+  win.document.write(`
+    <iframe src="${file}" style="width:100%;height:100vh;"></iframe>
+  `);
+}
+</script>
+
+</body>
+</html>

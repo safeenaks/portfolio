@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Poppins',sans-serif;
+  background:url('assets/images/BG.png') no-repeat center/cover;
+  padding:40px;
+}
+
+/* TITLE */
+h2 {
+  text-align:center;
+  color:#0a8f5a;
+  margin-bottom:30px;
+}
+
+/* GRID (2 PER ROW) */
+.grid {
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:25px;
+}
+
+/* CARD */
+.card {
+  background:white;
+  padding:15px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  transition:0.3s;
+}
+
+.card:hover {
+  transform:translateY(-5px);
+}
+
+/* IMAGE */
+.card img {
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  border-radius:10px;
+  background:#f5f5f5;
+  cursor:pointer;
+}
+
+/* PDF */
+.pdf-view {
+  width:100%;
+  height:350px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* OTHER FILE */
+.file-box {
+  height:200px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f5f5f5;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:500;
+}
+
+/* TITLE */
+.card h4 {
+  margin-top:10px;
+  text-align:center;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<h2>Skills</h2>
+
+<div class="grid" id="skills"></div>
+
+<script>
+const data = JSON.parse(localStorage.getItem("skills")) || [];
+
+let html = "";
+
+if(data.length === 0){
+  html = "<p style='text-align:center;'>No skills added yet</p>";
+}
+
+data.forEach(item => {
+
+  const file = item.file;
+  const type = item.type;
+
+  // IMAGE
+  if(type.startsWith("image")){
+    html += `
+      <div class="card">
+        <img src="${file}" onclick="openFull('${file}')">
+        <h4>${item.title}</h4>
+      </div>
+    `;
+  }
+
+  // PDF
+  else if(type.includes("pdf")){
+    html += `
+      <div class="card">
+        <embed src="${file}" type="application/pdf" class="pdf-view"
+          onclick="openFull('${file}')">
+        <h4>${item.title}</h4>
+      </div>
+    `;
+  }
+
+  // OTHER FILES
+  else {
+    html += `
+      <div class="card">
+        <div class="file-box" onclick="openFull('${file}')">
+          📄 Click to open file
+        </div>
+        <h4>${item.title}</h4>
+      </div>
+    `;
+  }
+
+});
+
+document.getElementById("skills").innerHTML = html;
+
+/* FULL SCREEN VIEW */
+function openFull(src){
+  const win = window.open();
+  win.document.write(`
+    <iframe src="${src}" style="width:100%; height:100vh; border:none;"></iframe>
+  `);
+}
+</script>
+
+</body>
+</html>
