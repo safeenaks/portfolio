@@ -79,7 +79,7 @@ portfolio/
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-link>
+git clone .....
 ```
 
 ### 2. Open the Project
